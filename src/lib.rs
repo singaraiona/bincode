@@ -62,8 +62,8 @@ pub trait SerializerAcceptor {
 /// Get a default configuration object.
 ///
 /// ### Default Configuration:
-/// Byte limit: Unlimited
-/// Endianness: Little
+/// * Byte limit: Unlimited
+/// * Endianness: Little
 pub fn config() -> Config {
     Config::new()
 }
@@ -129,6 +129,8 @@ where
 }
 
 /// Executes the acceptor with a serde::Deserializer instance.
+///
+/// You probably shouldn't use this unless your name is Gankro
 pub fn with_deserializer<'a, A,  R>(reader: R, acceptor: A) -> A::Output
 where A: DeserializerAcceptor<'a>,
         R: BincodeRead<'a>
@@ -137,6 +139,8 @@ where A: DeserializerAcceptor<'a>,
 }
 
 /// Executes the acceptor with a serde::Serializer instance.
+///
+/// You probably shouldn't use this unless your name is Gankro
 pub fn with_serializer<A, W>(writer: W, acceptor: A) -> A::Output
 where A: SerializerAcceptor,
     W: std::io::Write

@@ -89,6 +89,10 @@ enum EndianOption {
 /// Endianness: The endianness with which multi-byte integers will be read/written.  *default: little endian*
 /// Limit: The maximum number of bytes that will be read/written in a bincode serialize/deserialize. *default: unlimited*
 ///
+/// ### Endian Details
+/// Native Endian will set the endianness to the endianness of the target during compilation.  This option
+/// is *not* portable.
+///
 /// ### Byte Limit Details
 /// The purpose of byte-limiting is to prevent Denial-Of-Service attacks whereby malicious attackers get bincode
 /// deserialization to crash your process by allocating too much memory or keeping a connection open for too long.
