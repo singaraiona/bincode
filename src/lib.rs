@@ -1,5 +1,3 @@
-#![deny(missing_docs)]
-
 //! Bincode is a crate for encoding and decoding using a tiny binary
 //! serialization strategy.  Using it, you can easily go from having
 //! an object in memory, quickly serialize it to bytes, and then

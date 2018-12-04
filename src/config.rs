@@ -12,14 +12,14 @@ use self::LimitOption::*;
 
 struct DefaultOptions(Infinite);
 
-pub(crate) trait Options {
+pub trait Options {
     type Limit: SizeLimit + 'static;
     type Endian: ByteOrder + 'static;
 
     fn limit(&mut self) -> &mut Self::Limit;
 }
 
-pub(crate) trait OptionsExt: Options + Sized {
+pub trait OptionsExt: Options + Sized {
     fn with_no_limit(self) -> WithOtherLimit<Self, Infinite> {
         WithOtherLimit::new(self, Infinite)
     }
@@ -100,19 +100,19 @@ pub struct Config {
     endian: EndianOption,
 }
 
-pub(crate) struct WithOtherLimit<O: Options, L: SizeLimit> {
+pub struct WithOtherLimit<O: Options, L: SizeLimit> {
     _options: O,
-    pub(crate) new_limit: L,
+    pub new_limit: L,
 }
 
-pub(crate) struct WithOtherEndian<O: Options, E: ByteOrder> {
+pub struct WithOtherEndian<O: Options, E: ByteOrder> {
     options: O,
     _endian: PhantomData<E>,
 }
 
 impl<O: Options, L: SizeLimit> WithOtherLimit<O, L> {
     #[inline(always)]
-    pub(crate) fn new(options: O, limit: L) -> WithOtherLimit<O, L> {
+    pub fn new(options: O, limit: L) -> WithOtherLimit<O, L> {
         WithOtherLimit {
             _options: options,
             new_limit: limit,
@@ -122,7 +122,7 @@ impl<O: Options, L: SizeLimit> WithOtherLimit<O, L> {
 
 impl<O: Options, E: ByteOrder> WithOtherEndian<O, E> {
     #[inline(always)]
-    pub(crate) fn new(options: O) -> WithOtherEndian<O, E> {
+    pub fn new(options: O) -> WithOtherEndian<O, E> {
         WithOtherEndian {
             options: options,
             _endian: PhantomData,
@@ -183,7 +183,7 @@ macro_rules! config_map {
 
 impl Config {
     #[inline(always)]
-    pub(crate) fn new() -> Config {
+    pub fn new() -> Config {
         Config {
             limit: LimitOption::Unlimited,
             endian: EndianOption::Little,

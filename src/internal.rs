@@ -11,7 +11,7 @@ struct CountSize<L: SizeLimit> {
     other_limit: L,
 }
 
-pub(crate) fn serialize_into<W, T: ?Sized, O>(writer: W, value: &T, mut options: O) -> Result<()>
+pub fn serialize_into<W, T: ?Sized, O>(writer: W, value: &T, mut options: O) -> Result<()>
 where
     W: Write,
     T: serde::Serialize,
@@ -27,7 +27,7 @@ where
     serde::Serialize::serialize(value, &mut serializer)
 }
 
-pub(crate) fn serialize<T: ?Sized, O>(value: &T, mut options: O) -> Result<Vec<u8>>
+pub fn serialize<T: ?Sized, O>(value: &T, mut options: O) -> Result<Vec<u8>>
 where
     T: serde::Serialize,
     O: Options,
@@ -53,7 +53,7 @@ impl<L: SizeLimit> SizeLimit for CountSize<L> {
     }
 }
 
-pub(crate) fn serialized_size<T: ?Sized, O: Options>(value: &T, mut options: O) -> Result<u64>
+pub fn serialized_size<T: ?Sized, O: Options>(value: &T, mut options: O) -> Result<u64>
 where
     T: serde::Serialize,
 {
@@ -72,7 +72,7 @@ where
     result.map(|_| size_counter.options.new_limit.total)
 }
 
-pub(crate) fn deserialize_from<R, T, O>(reader: R, options: O) -> Result<T>
+pub fn deserialize_from<R, T, O>(reader: R, options: O) -> Result<T>
 where
     R: Read,
     T: serde::de::DeserializeOwned,
@@ -83,7 +83,7 @@ where
     serde::Deserialize::deserialize(&mut deserializer)
 }
 
-pub(crate) fn deserialize_from_custom<'a, R, T, O>(reader: R, options: O) -> Result<T>
+pub fn deserialize_from_custom<'a, R, T, O>(reader: R, options: O) -> Result<T>
 where
     R: BincodeRead<'a>,
     T: serde::de::DeserializeOwned,
@@ -93,7 +93,7 @@ where
     serde::Deserialize::deserialize(&mut deserializer)
 }
 
-pub(crate) fn deserialize_in_place<'a, R, T, O>(reader: R, options: O, place: &mut T) -> Result<()>
+pub fn deserialize_in_place<'a, R, T, O>(reader: R, options: O, place: &mut T) -> Result<()>
 where
     R: BincodeRead<'a>,
     T: serde::de::Deserialize<'a>,
@@ -103,7 +103,7 @@ where
     serde::Deserialize::deserialize_in_place(&mut deserializer, place)
 }
 
-pub(crate) fn deserialize<'a, T, O>(bytes: &'a [u8], options: O) -> Result<T>
+pub fn deserialize<'a, T, O>(bytes: &'a [u8], options: O) -> Result<T>
 where
     T: serde::de::Deserialize<'a>,
     O: Options,
@@ -114,7 +114,7 @@ where
     serde::Deserialize::deserialize(&mut deserializer)
 }
 
-pub(crate) fn deserialize_seed<'a, T, O>(seed: T, bytes: &'a [u8], options: O) -> Result<T::Value>
+pub fn deserialize_seed<'a, T, O>(seed: T, bytes: &'a [u8], options: O) -> Result<T::Value>
 where
     T: serde::de::DeserializeSeed<'a>,
     O: Options,
@@ -125,7 +125,7 @@ where
     seed.deserialize(&mut deserializer)
 }
 
-pub(crate) trait SizeLimit: Clone {
+pub trait SizeLimit: Clone {
     /// Tells the SizeLimit that a certain number of bytes has been
     /// read or written.  Returns Err if the limit has been exceeded.
     fn add(&mut self, n: u64) -> Result<()>;
