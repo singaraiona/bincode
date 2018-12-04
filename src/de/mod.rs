@@ -24,7 +24,7 @@ pub mod read;
 /// serde::Deserialize::deserialize(&mut deserializer);
 /// let bytes_read = d.bytes_read();
 /// ```
-pub(crate) struct Deserializer<R, O: Options> {
+pub struct Deserializer<R, O: Options> {
     reader: R,
     options: O,
 }
@@ -183,12 +183,10 @@ where
             return Err(error());
         }
 
-        let res = try!(
-            str::from_utf8(&buf[..width])
-                .ok()
-                .and_then(|s| s.chars().next())
-                .ok_or(error())
-        );
+        let res = try!(str::from_utf8(&buf[..width])
+            .ok()
+            .and_then(|s| s.chars().next())
+            .ok_or(error()));
         visitor.visit_char(res)
     }
 

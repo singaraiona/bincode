@@ -39,10 +39,10 @@ extern crate byteorder;
 #[macro_use]
 extern crate serde;
 
-mod config;
+pub mod config;
 pub mod de;
-mod error;
-mod internal;
+pub mod error;
+pub mod internal;
 pub mod ser;
 
 pub use config::Config;
