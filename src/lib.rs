@@ -40,10 +40,10 @@ extern crate byteorder;
 extern crate serde;
 
 mod config;
-mod de;
+pub mod de;
 mod error;
 mod internal;
-mod ser;
+pub mod ser;
 
 pub use config::Config;
 pub use de::read::{BincodeRead, IoReader, SliceReader};
